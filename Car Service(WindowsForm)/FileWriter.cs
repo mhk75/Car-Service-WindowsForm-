@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Data.SQLite;
 using System.Data;
-
+using System.Windows.Forms;
 
 namespace cars
 {
@@ -71,11 +71,10 @@ namespace cars
                 Connection.Open();
                 SQLiteCommand Command = new SQLiteCommand(query, Connection);
                 string answer = Convert.ToString(Command.ExecuteNonQuery());
-                Console.WriteLine(answer);
             }
             catch (SQLiteException ex)
             {
-                Console.WriteLine("Error: {0}", ex.ToString());
+                MessageBox.Show("Error: "+ ex.Message);
 
             }
             finally
@@ -89,6 +88,34 @@ namespace cars
             }
         }
 
+        //public void WriteData(string obj)
+        //{
+        //    SQLiteConnection Connection = null;
+        //    try
+        //    {
+
+                
+        //        Connection = new SQLiteConnection(DataBaseLocation);
+        //        Connection.Open();
+        //        SQLiteCommand Command = new SQLiteCommand(query, Connection);
+        //        string answer = Convert.ToString(Command.ExecuteNonQuery());
+        //        Console.WriteLine(answer);
+        //    }
+        //    catch (SQLiteException ex)
+        //    {
+        //        Console.WriteLine("Error: {0}", ex.ToString());
+
+        //    }
+        //    finally
+        //    {
+
+        //        if (Connection != null)
+        //        {
+        //            Connection.Close();
+        //        }
+
+        //    }
+        //}
 
         public List<Car> ReadDataCar()
         {
@@ -138,7 +165,7 @@ namespace cars
         public List<Car> ReadDataService(List<Car> File_Cars)
         {
             DataTable dt = new DataTable();
-            string query = "select * from carservice inner join Oil on Oil.OilID = carservice.OilID inner join Car on car.tag = carservice.cartag";
+            string query = "select * from carservice left join Oil on Oil.OilID = carservice.OilID inner join Car on car.tag = carservice.cartag";
             SQLiteConnection Connection = null;
             try
             {
@@ -160,7 +187,14 @@ namespace cars
                             car.CarService.TavizSafiBenzin = Convert.ToBoolean(answer["safibenzin"]);
                             car.CarService.KilometrFeli = Convert.ToInt32(answer["kilometrfeli"]);
                             car.CarService.KilometrServiceBadi = Convert.ToInt32(answer["kilometrservicebadi"]);
-                            car.CarService.oil.ID = Convert.ToInt32(answer["OilID"]);
+                            if(answer["OilID"] is DBNull )
+                            {
+                                car.CarService.oil.ID = Convert.ToInt32(null);
+                            }
+                            else
+                            {
+                                car.CarService.oil.ID = Convert.ToInt32(answer["OilID"]);
+                            }
                             car.CarService.oil.Name = answer["name"].ToString();
                             car.CarService.oil.Type = answer["type"].ToString();
                         }
@@ -256,7 +290,7 @@ namespace cars
             DataTable dt = new DataTable();
             string query = "select car.name as carname,car.model as model,car.owner as owner,car.tag as cartag,carservice.tarikh as tarikh,carservice.kilometrfeli as kilometrfeli,carservice.filterroghan as filterroghan," +
                 "carservice.filterhava as filterhava,carservice.filtercabin as filtercabin,carservice.safibenzin as safibenzin,carservice.servicevaskazin as servicevaskazin,carservice.kilometrservicebadi as kilometrservicebadi " +
-                ",oil.name as oilname,oil.type as oiltype from carservice inner join Oil on Oil.OilID = carservice.OilID inner join Car on car.tag = carservice.cartag";
+                ",oil.name as oilname,oil.type as oiltype from carservice left join Oil on Oil.OilID = carservice.OilID inner join Car on car.tag = carservice.cartag";
             SQLiteConnection Connection = null;
             try
             {
@@ -266,9 +300,9 @@ namespace cars
                 answer.Fill(dt);
                 return dt;
             }
-            catch (SQLiteException)
+            catch (SQLiteException ex)
             {
-
+                MessageBox.Show("Reading data" + ex.Message);
                 throw;
             }
             finally
@@ -280,6 +314,40 @@ namespace cars
                 }
 
             }
+        }
+
+        public int GetOilID(Oil oil)
+        {
+            string query = string.Format("SELECT OilID From Oil WHERE type = '{0}' AND name = '{1}'", oil.Type, oil.Name);
+            int output = 0;
+            SQLiteConnection Connection = null;
+            try
+            {
+                Connection = new SQLiteConnection(DataBaseLocation);
+                Connection.Open();
+                SQLiteCommand Command = new SQLiteCommand(query, Connection);
+                SQLiteDataReader answer = Command.ExecuteReader();
+                while (answer.Read())
+                {
+                    output = Convert.ToInt32( answer["OilID"]);
+                }
+                return output;
+            }
+            catch (SQLiteException ex)
+            {
+                Console.WriteLine("Error: {0}", ex.ToString());
+                return Convert.ToInt32(null);
+            }
+            finally
+            {
+
+                if (Connection != null)
+                {
+                    Connection.Close();
+                }
+
+            }
+
         }
 
         public CarService.Service_Vaskazin ConvertServiceVaskazin(string v)

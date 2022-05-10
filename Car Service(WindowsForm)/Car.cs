@@ -28,8 +28,8 @@ namespace cars
         }
         public string ServiceWriteData()
         {
-            return string.Format("insert into carservice(cartag,tarikh,kilometrfeli,filterroghan,filterhava,filtercabin,safibenzin,servicevaskazin,kilometrservicebadi) values(  '{0}','{1}',{2},{3},{4},{5},{6},'{7}',{8})",
-                CarTag, CarService.Tarikh, CarService.KilometrFeli, CarService.TavizFilterRoghan, CarService.TavizFilterHava, CarService.TavizFilterCabin, CarService.TavizSafiBenzin, CarService.ServiceVaskazin.ToString(), CarService.KilometrServiceBadi);
+            return string.Format("insert into carservice(cartag,tarikh,kilometrfeli,filterroghan,filterhava,filtercabin,safibenzin,servicevaskazin,kilometrservicebadi,OilID) values(  '{0}','{1}',{2},{3},{4},{5},{6},'{7}',{8},{9})",
+                CarTag, CarService.Tarikh, CarService.KilometrFeli, CarService.TavizFilterRoghan, CarService.TavizFilterHava, CarService.TavizFilterCabin, CarService.TavizSafiBenzin, CarService.ServiceVaskazin.ToString(), CarService.KilometrServiceBadi,CarService.oil.ID);
         }
         public void ServiceStatus()
         {
@@ -38,13 +38,17 @@ namespace cars
         }
         public string ServiceUpdateData()
         {
-            return string.Format("UPDATE carservice SET tarikh = '{0}', kilometrfeli = {1}, filterroghan = {2}, filterhava = {3}, filtercabin = {4}, safibenzin = {5}, servicevaskazin = '{6}', kilometrservicebadi = {7} WHERE cartag = '{8}'",
-                CarService.Tarikh, CarService.KilometrFeli, CarService.TavizFilterRoghan, CarService.TavizFilterHava, CarService.TavizFilterCabin, CarService.TavizSafiBenzin, CarService.ServiceVaskazin.ToString(), CarService.KilometrServiceBadi, CarTag);
+            return string.Format("UPDATE carservice SET tarikh = '{0}', kilometrfeli = {1}, filterroghan = {2}, filterhava = {3}, filtercabin = {4}, safibenzin = {5}, servicevaskazin = '{6}', kilometrservicebadi = {7},OilID = {8} WHERE cartag = '{9}'",
+                CarService.Tarikh, CarService.KilometrFeli, CarService.TavizFilterRoghan, CarService.TavizFilterHava, CarService.TavizFilterCabin, CarService.TavizSafiBenzin, CarService.ServiceVaskazin.ToString(), CarService.KilometrServiceBadi, CarService.oil.ID,CarTag);
         }
         public string DeleteCar()
         {
             return string.Format("DELETE FROM car  WHERE tag = '{0}'",
                 CarTag);
+        }
+        public string DeleteService()
+        {
+            return string.Format("DELETE FROM carservice WHERE cartag = '{0}'", CarTag);
         }
     }
 }

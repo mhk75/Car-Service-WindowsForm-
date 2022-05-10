@@ -19,7 +19,7 @@ namespace cars
 
         public string DeleteOilData()
         {
-            return string.Format("DELETE FROM Oil  WHERE id = '{0}'",
+            return string.Format("DELETE FROM Oil  WHERE OilID = '{0}'",
                 ID);
         }
         public void Status()
