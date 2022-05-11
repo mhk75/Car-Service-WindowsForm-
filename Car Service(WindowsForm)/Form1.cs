@@ -63,11 +63,6 @@ namespace Car_Service_WindowsForm_
             int count = 1;
             foreach (Car i in cars)
             {
-                //Console.WriteLine("");
-                //Console.WriteLine(count);
-                //i.Status();
-                //count++;
-                //Console.WriteLine("");
                 txbResult.AppendText(count.ToString()+"\r\n");
                 txbResult.AppendText(i.Status()+"\r\n");
                 count++;
@@ -116,7 +111,6 @@ namespace Car_Service_WindowsForm_
                     TempCar = i;
                     break;
                 }
-
             }
             return TempCar;
         }
@@ -160,7 +154,6 @@ namespace Car_Service_WindowsForm_
                 if (mycar.CarService.ServiceVaskazin != CarService.Service_Vaskazin.FULL)
                 {
                     mycar.CarService.oil = getOilObject(cmbRoghan.SelectedItem.ToString());
-                    MessageBox.Show(mycar.CarService.oil.ID.ToString());
                 }
             }
             catch (Exception ex)
@@ -190,7 +183,6 @@ namespace Car_Service_WindowsForm_
             {
                 try
                 {
-
                     mycar = GetNewCar(oils);
                     cars.Add(mycar);
                     MessageBox.Show("NewCar Added Successfully");

@@ -146,7 +146,7 @@ namespace cars
             }
             catch (SQLiteException ex)
             {
-                Console.WriteLine("Error: {0}", ex.ToString());
+                MessageBox.Show("Error: " + ex.Message);
                 return null;
             }
             finally
@@ -204,7 +204,7 @@ namespace cars
             }
             catch (SQLiteException ex)
             {
-                Console.WriteLine("Error: {0}", ex.ToString());
+                MessageBox.Show("Error: {0}" + ex.Message);
                 return null;
             }
             finally
@@ -242,7 +242,7 @@ namespace cars
             }
             catch (SQLiteException ex)
             {
-                Console.WriteLine("Error: {0}", ex.ToString());
+                MessageBox.Show("Error: {0}" + ex.Message);
                 return null;
             }
             finally
@@ -271,7 +271,7 @@ namespace cars
             }
             catch (SQLiteException ex)
             {
-                Console.WriteLine("Error: {0}", ex.ToString());
+                MessageBox.Show("Error: "+ ex.Message);
                 return null;
             }
             finally

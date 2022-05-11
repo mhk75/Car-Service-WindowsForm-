@@ -346,7 +346,7 @@ namespace Car_Service_WindowsForm_
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(629, 106);
+            this.label10.Location = new System.Drawing.Point(629, 110);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(41, 13);
             this.label10.TabIndex = 29;
